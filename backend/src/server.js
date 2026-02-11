@@ -1,3 +1,6 @@
+import dns from "dns";
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
 import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";
@@ -10,6 +13,7 @@ const app = express();
 const _dirname = path.resolve();
 
 const PORT = process.env.PORT || 4000;
+app.use(express.json()); //for req.body
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRouter);
