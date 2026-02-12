@@ -2,9 +2,8 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../email/EmailHandlers.js";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { ENV } from "../lib/ENV.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
   try {
@@ -47,7 +46,7 @@ export const signup = async (req, res) => {
         await sendWelcomeEmail(
           savedUser.email,
           savedUser.fullname,
-          process.env.CLIENT_URL,
+          ENV.CLIENT_URL,
         );
       } catch (error) {
         console.log("Error sending welcome email:", error.message);
@@ -93,4 +92,24 @@ export const logout = (_, res) => {
     maxAge: 0,
   });
   res.status(200).json({ message: "Logged out successfully" });
+};
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    const { dp } = req.body;
+    if (!dp) {
+      return res.status(400).json({ message: "Display picture is required" });
+    }
+    const userId = req.user._id;
+    const uploadResponse = await cloudinary.uploader.upload(dp);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { dp: uploadResponse.secure_url },
+      { new: true },
+    ).select("-password");
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log("Error in updateProfile controller", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
