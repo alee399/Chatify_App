@@ -8,6 +8,8 @@ import messageRouter from "./routes/message.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { connectDB } from "./lib/db.js";
+import cors from "cors";
+import { ENV } from "./lib/ENV.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +18,10 @@ const _dirname = path.resolve();
 const PORT = process.env.PORT || 4000;
 app.use(express.json()); //for req.body
 app.use(cookieParser()); //for req.cookies
+
+// make sure the frontend origin is set (Vite default 5173)
+const clientOrigin = ENV.CLIENT_URL || "http://localhost:5173";
+app.use(cors({ origin: clientOrigin, credentials: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRouter);
