@@ -95,6 +95,7 @@ export const logout = (_, res) => {
 };
 
 export const updateProfile = async (req, res, next) => {
+  console.log(req.user);
   try {
     const { dp } = req.body;
     if (!dp) {

@@ -16,7 +16,8 @@ const app = express();
 const _dirname = path.resolve();
 
 const PORT = process.env.PORT || 4000;
-app.use(express.json()); //for req.body
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser()); //for req.cookies
 
 // make sure the frontend origin is set (Vite default 5173)

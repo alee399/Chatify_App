@@ -21,13 +21,13 @@ export default function Example() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     signup(formData);
   };
   return (
     <AnimatedBorder duration="4s" className="p-6 w-2/3 min-h-[80vh] absolute">
-      <div className="flex">
-        <div className="w-[50%]">
+      <div className="md:flex items-center md:relative">
+        <div className="hidden md:block border border-slate-700/50 absolute left-[50.5%] min-h-[88.5vh]"></div>
+        <div className="md:w-[50%] sm:  p-6">
           <div className="text-center mb-8">
             <MessageCircleIcon className="h-10 w-10 mx-auto text-slate-400 mb-4" />
             <h2 className="text-2xl font-bold text-slate-200 mb-2">
