@@ -1,7 +1,9 @@
 import React from "react";
 import { MessageCircleIcon } from "lucide-react";
+import { useChatStore } from "../store/useChatStore";
 
 const NoChatHistory = ({ name }) => {
+  const { sendMessage } = useChatStore();
   return (
     <div className="flex flex-col items-center justify-center h-full text-center p-6">
       <div className="w-16 h-16 bg-linear-to-br from-cyan-500/20 to-cyan-400/10 rounded-full flex items-center justify-center mb-5">
@@ -18,13 +20,34 @@ const NoChatHistory = ({ name }) => {
         <div className="h-px w-32 bg-linear-to-r from-transparent via-cyan-500/30 to-transparent mx-auto"></div>
       </div>
       <div className="flex flex-wrap gap-2 justify-center">
-        <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
-          👋 Say Hello
+        <button
+          className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors cursor-pointer"
+          onClick={() => {
+            sendMessage({
+              text: "👋 Hello",
+            });
+          }}
+        >
+          👋 Hello
         </button>
-        <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
+        <button
+          className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors cursor-pointer"
+          onClick={() => {
+            sendMessage({
+              text: "🤝 How are you?",
+            });
+          }}
+        >
           🤝 How are you?
         </button>
-        <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
+        <button
+          className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors cursor-pointer"
+          onClick={() => {
+            sendMessage({
+              text: "📅 Meet up soon?",
+            });
+          }}
+        >
           📅 Meet up soon?
         </button>
       </div>

@@ -41,7 +41,12 @@ const ProfileHeader = () => {
                 }}
               >
                 <img
-                  src={selectedImg || authUser?.user?.dp || "/avatar.png"}
+                  src={
+                    selectedImg ||
+                    authUser?.dp ||
+                    authUser?.user?.dp ||
+                    "/avatar.png"
+                  }
                   alt="User profile image"
                   className="size-full object-cover"
                 />
@@ -69,7 +74,7 @@ const ProfileHeader = () => {
             </div>
             <div>
               <h3 className="text-slate-200 font-medium font-base capitalize leading-6">
-                {authUser?.user?.fullname}
+                {authUser?.fullname || authUser?.user?.fullname}
               </h3>
               <p className="text-sm text-slate-400 font-medium">online</p>
             </div>

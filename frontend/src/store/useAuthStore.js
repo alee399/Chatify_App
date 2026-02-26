@@ -2,7 +2,6 @@ import axios from "axios";
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { AccessibilityIcon } from "lucide-react";
 
 export const useAuthStore = create((set) => ({
   authUser: null,
@@ -21,6 +20,7 @@ export const useAuthStore = create((set) => ({
       set({ isCheckingAuth: false });
     }
   },
+
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
@@ -43,9 +43,7 @@ export const useAuthStore = create((set) => ({
   login: async (data) => {
     set({ isLoggedIn: true });
     try {
-      await axiosInstance.post("/auth/login", data);
-
-      const res = await axiosInstance.get("/auth/check");
+      const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
       toast.success("Account login successfully!");
     } catch (error) {
