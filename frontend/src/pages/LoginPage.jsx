@@ -69,6 +69,7 @@ export default function Example() {
                   className="w-full bg-slate-800/50 border border-slate-700 rounded-lg py-2 pl-10 pr-4 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Enter your password"
                   value={formData?.password}
+                  autoComplete="current-password"
                   onChange={(e) => {
                     setFormData({ ...formData, password: e.target.value });
                   }}

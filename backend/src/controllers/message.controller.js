@@ -34,32 +34,41 @@ export const getMessagesByUserId = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const myId = req.user._id;
-    const sendToId = req.params.id;
     const { text, image } = req.body;
+    const { id: receiverId } = req.params;
+    const senderId = req.user._id;
 
     if (!text && !image) {
+      return res.status(400).json({ message: "Text or image is required." });
+    }
+    if (senderId.equals(receiverId)) {
       return res
         .status(400)
-        .json({ message: "Message text or image is required" });
+        .json({ message: "Cannot send messages to yourself." });
     }
-    let imageUrl = null;
+    const receiverExists = await User.exists({ _id: receiverId });
+    if (!receiverExists) {
+      return res.status(404).json({ message: "Receiver not found." });
+    }
+
+    let imageUrl;
     if (image) {
+      // upload base64 image to cloudinary
       const uploadResponse = await cloudinary.uploader.upload(image);
       imageUrl = uploadResponse.secure_url;
     }
 
     const newMessage = new Message({
-      senderId: myId,
-      receiverId: sendToId,
+      senderId,
+      receiverId,
       text,
       image: imageUrl,
     });
     await newMessage.save();
     res.status(201).json(newMessage);
   } catch (error) {
-    console.error("Error sending message:", error);
-    res.status(500).json({ message: "Server error" });
+    console.log("Error in sendMessage controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

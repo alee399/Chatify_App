@@ -14,7 +14,7 @@ const ContactList = () => {
   if (contacts?.User?.length === 0) return <NoChatsFound />;
   return (
     <div className="space-y-2">
-      {contacts?.User?.map((contact) => (
+      {contacts.map((contact) => (
         <div
           key={contact._id}
           className="bg-cyan-500/10 p-2 rounded-lg flex cursor-pointer hover:bg-cyan-500/20 transition-colors items-center gap-2 "

@@ -5,6 +5,7 @@ import ChatHeader from "./ChatHeader";
 import NoChatHistory from "./NoChatHistory";
 import ViewMessages from "./ViewMessages";
 import MessagesSkeletonLoader from "./MessagesSkeletonLoader";
+import MessageInput from "./MessageInput";
 
 const ChatContainer = () => {
   const { getMessagesByUserId, selectedUser, messages, isMessagesLoading } =
@@ -18,18 +19,20 @@ const ChatContainer = () => {
   return (
     <>
       <ChatHeader />
-      <div className="flex-1 h-[86%] p-4 overflow-y-auto">
+      <div className="flex-1 h-[72%] p-4 overflow-y-auto">
         {messages?.messages?.length > 0 && !isMessagesLoading ? (
           <ViewMessages
-            messages={messages.messages}
-            userId={authUser.user._id}
+            messages={messages}
+            userId={authUser?._id || authUser?.user?._id}
           />
         ) : isMessagesLoading ? (
           <MessagesSkeletonLoader />
         ) : (
-          <NoChatHistory />
+          <NoChatHistory name={selectedUser?.fullname} />
         )}
       </div>
+
+      <MessageInput />
     </>
   );
 };
